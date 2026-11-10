@@ -1,6 +1,9 @@
-name: Vérification
+name: Vérification et documentation
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,3 +20,28 @@ jobs:
       - run: nix flake check
       - run: nix develop -c dune build @doc
       - run: nix develop -c sh -c 'dune exec ocaml/exemples/automate.exe > automate.dot && dot -Tsvg automate.dot -o automate.svg'
+
+  pages:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - uses: actions/configure-pages@v5
+      - run: nix develop -c dune build @doc
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _build/default/_doc/_html
+      - uses: actions/deploy-pages@v4
+        id: deployment

@@ -1,5 +1,5 @@
 (lang dune 3.17)
-(name mpi)
+(name mpi-informatique)
 (generate_opam_files true)
 (using mdx 0.4)
 
@@ -8,8 +8,8 @@
 (maintainers "MPI informatique")
 
 (package
- (name mpi)
- (synopsis "Bibliothèque pédagogique pour MP2I et MPI")
+ (name mpi-informatique)
+ (synopsis "Bibliothèque pour MP2I et MPI")
  (depends
   (ocaml (>= 5.5.2))
   (odoc :with-doc)

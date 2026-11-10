@@ -1,7 +1,30 @@
 # MPI
 
-Bibliothèque pédagogique OCaml pour MP2I/MPI, destinée à accueillir aussi une bibliothèque C.
+Bibliothèque OCaml et C pour MP2I/MPI.
 Modules actuels : `Mpi.Automate` (automates finis avec transitions epsilon) et `Mpi.Dot` (export Graphviz).
+
+[Documentation](https://mpi-informatique.github.io/lib/)
+
+## Utilisation
+
+Avec un switch opam OCaml ≥ 5.5.2 actif :
+
+<!-- $MDX skip -->
+```sh
+opam install ocamlfind
+opam pin add mpi-informatique 'git+https://github.com/mpi-informatique/lib.git#main'
+opam upgrade mpi-informatique # Pour les mises à jour suivantes.
+```
+
+Compiler un fichier `main.ml` :
+
+<!-- $MDX skip -->
+```sh
+ocamlfind ocamlopt -package mpi-informatique -linkpkg main.ml -o main
+./main
+```
+
+Avec Dune, ajouter `(libraries mpi-informatique)` à l'exécutable. Les modules restent accessibles sous `Mpi`.
 
 ## Développement
 
@@ -20,7 +43,8 @@ Les sources OCaml sont dans `ocaml/` ; les futures sources C iront dans `c/`.
 
 ## Exemple
 
-Dans `ocaml`, exécuter `#use_output "dune ocaml top";;`, puis :
+Dans `ocaml`, exécuter `#use "topfind";;` puis `#require "mpi-informatique";;`.
+Depuis les sources, utiliser `#use_output "dune ocaml top";;` à la place.
 
 ```ocaml
 # let a = Mpi.Automate.creer ~nb_etats:2 ~initiaux:[0] ~finaux:[1] ~transitions:[(0, Some 'a', 1); (1, Some 'b', 1)] in

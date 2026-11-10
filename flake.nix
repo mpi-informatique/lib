@@ -12,7 +12,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
           ocaml = pkgs.ocamlPackages;
           mpi = ocaml.buildDunePackage {
-            pname = "mpi";
+            pname = "mpi-informatique";
             version = "dev";
             duneVersion = "3";
             src = self;
