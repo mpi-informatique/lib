@@ -1,5 +1,23 @@
 {
   "nodes": {
+    "environnement": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1794324928,
+        "narHash": "sha256-cspBHJHytjOem7cOJUC+xPQBNlQ6mPf5jGI1fkj3hAg=",
+        "owner": "mpi-informatique",
+        "repo": "tp-environnement",
+        "rev": "04750537892b54f4c2d9bcf6896aedca3f977721",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mpi-informatique",
+        "repo": "tp-environnement",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1794319310,
@@ -17,7 +35,11 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "environnement": "environnement",
+        "nixpkgs": [
+          "environnement",
+          "nixpkgs"
+        ]
       }
     }
   },

@@ -24,6 +24,14 @@ ocamlfind ocamlopt -package mpi-informatique -linkpkg main.ml -o main
 ./main
 ```
 
+Dans `utop` (installé avec `opam install utop`), charger le paquet puis ouvrir son module :
+
+<!-- $MDX skip -->
+```ocaml
+# #require "mpi-informatique";;
+# open Mpi;;
+```
+
 Avec Dune, ajouter `(libraries mpi-informatique)` à l'exécutable. Les modules restent accessibles sous `Mpi`.
 
 ## Développement
@@ -38,7 +46,9 @@ dune runtest
 dune build @doc
 ```
 
-L'environnement fournit OCaml 5.5.2, Dune, MDX, odoc et Graphviz. `flake.lock` fixe leurs versions.
+Le [socle commun](https://github.com/mpi-informatique/tp-environnement) fournit OCaml, `utop`, Dune, les outils C, Graphviz et opam ; ce dépôt ajoute MDX et odoc. `flake.lock` fixe leurs versions.
+Dans les sources, `dune utop ocaml/lib` ouvre un interpréteur avec `Mpi` déjà chargé.
+Pour actualiser le socle : `nix flake update environnement`.
 Les sources OCaml sont dans `ocaml/` ; les futures sources C iront dans `c/`.
 
 ## Exemple

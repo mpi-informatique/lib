@@ -1,16 +1,16 @@
 {
   description = "Bibliothèque pédagogique MP2I/MPI";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+  inputs.environnement.url = "github:mpi-informatique/tp-environnement";
+  inputs.nixpkgs.follows = "environnement/nixpkgs";
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, environnement }:
     let
-      systems = [ "aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux" ];
+      systems = environnement.lib.systems;
       forAllSystems = nixpkgs.lib.genAttrs systems;
       environments = forAllSystems (system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
-          ocaml = pkgs.ocamlPackages;
+          inherit (environnement.legacyPackages.${system}) pkgs ocaml;
           mpi = ocaml.buildDunePackage {
             pname = "mpi-informatique";
             version = "dev";
@@ -26,9 +26,9 @@
       packages = forAllSystems (system: { default = environments.${system}.mpi; });
       checks = forAllSystems (system: { mpi = environments.${system}.mpi; });
       devShells = forAllSystems (system:
-        let inherit (environments.${system}) pkgs ocaml; in {
-          default = pkgs.mkShell {
-            packages = [ ocaml.ocaml ocaml.dune_3 ocaml.findlib ocaml.ocaml-lsp ocaml.mdx ocaml.odoc pkgs.graphviz ];
+        let inherit (environments.${system}) ocaml; in {
+          default = environnement.lib.mkShell system {
+            packages = [ ocaml.mdx ocaml.odoc ];
           };
         });
     };
