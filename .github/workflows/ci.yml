@@ -1,0 +1,19 @@
+name: Vérification
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - run: nix flake check
+      - run: nix develop -c dune build @doc
+      - run: nix develop -c sh -c 'dune exec ocaml/exemples/automate.exe | dot -Tsvg -o automate.svg'

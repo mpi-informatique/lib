@@ -1,0 +1,3 @@
+(executable
+ (name automate)
+ (libraries mpi))

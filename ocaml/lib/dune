@@ -1,0 +1,3 @@
+(library
+ (name mpi)
+ (public_name mpi))
