@@ -16,4 +16,4 @@ jobs:
       - uses: cachix/install-nix-action@v31
       - run: nix flake check
       - run: nix develop -c dune build @doc
-      - run: nix develop -c sh -c 'dune exec ocaml/exemples/automate.exe | dot -Tsvg -o automate.svg'
+      - run: nix develop -c sh -c 'dune exec ocaml/exemples/automate.exe > automate.dot && dot -Tsvg automate.dot -o automate.svg'
